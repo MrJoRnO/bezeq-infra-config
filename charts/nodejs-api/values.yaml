@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: "" # יתמלא מה-CI
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+db:
+  externalIP: "10.50.1.100" 
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+env:
+  NODE_ENV: production

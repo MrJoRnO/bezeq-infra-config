@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bezeq-app-prod
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/MrJoRnO/bezeq-infra-config.git'
+    targetRevision: main  
+    path: charts/nodejs-api
+    helm:
+      valueFiles:
+        - ../../envs/prod/values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bezeq-prod
+  syncPolicy:
+    # ב-Production לפעמים מעדיפים Sync ידני, אבל אם הולכים על GitOps מלא:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

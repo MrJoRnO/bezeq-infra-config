@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bezeq-app-dev
+  name: bezeq-app-staging
   namespace: openshift-gitops
 spec:
   project: default
   source:
     repoURL: 'https://github.com/MrJoRnO/bezeq-infra-config.git'
-    targetRevision: develop  
+    targetRevision: staging  
     path: charts/nodejs-api
     helm:
       valueFiles:
-        - ../../envs/dev/values.yaml
+        - ../../envs/staging/values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: bezeq-dev 
+    namespace: bezeq-staging
   syncPolicy:
     automated:
       prune: true

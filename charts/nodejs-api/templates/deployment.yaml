@@ -3,40 +3,40 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}
   labels:
-    app: nodejs-api
+    app: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: nodejs-api
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: nodejs-api
+        app: {{ .Release.Name }}
     spec:
       containers:
         - name: nodejs-api
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.service.port }}
           resources:
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
-            requests:
-              cpu: "200m"
-              memory: "256Mi"
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: NODE_ENV
+              value: {{ .Values.env.NODE_ENV | quote }}
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: nodejs-db-secret
-                  key: DB_URL
+                  name: nodejs-db-secret # שם הסוד שיצרנו ב-Terraform/K8s
+                  key: connection_string
           livenessProbe:
             httpGet:
               path: /health
-              port: 3000
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 10
           readinessProbe:
             httpGet:
               path: /health
-              port: 3000
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 5
