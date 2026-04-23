@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-server-external
+spec:
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: sql-server-external
+subsets:
+  - addresses:
+      - ip: 10.50.1.100 # ה-IP של ה-SQL Server ברשת של בזק
+    ports:
+      - port: 1433
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-db-egress
+spec:
+  podSelector:
+    matchLabels:
+      app: nodejs-api
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.50.1.100/32 # הגבלת גישה רק ל-IP הספציפי של ה-DB
+      ports:
+        - protocol: TCP
+          port: 1433
