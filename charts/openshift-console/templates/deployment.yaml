@@ -21,7 +21,6 @@ spec:
           args:
             - "--k8s-mode=in-cluster"
             - "--user-auth=disabled"
-            - "--k8s-auth=bearer-token"
             - "--listen=http://0.0.0.0:9000"
             - "--public-dir=/opt/bridge/static"
           ports:
