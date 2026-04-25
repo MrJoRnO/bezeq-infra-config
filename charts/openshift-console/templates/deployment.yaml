@@ -17,25 +17,17 @@ spec:
       containers:
         - name: console
           image: "quay.io/openshift/origin-console:latest"
-          # הסקריפט הזה מוצא את הנתיב הנכון לבד
-          command: ["/bin/sh", "-c"]
+          # הנתיב שאימתנו ב-Discovery
+          command: ["/opt/bridge/bin/bridge"]
           args:
-            - |
-              echo "Searching for console binary..."
-              BIN_PATH=$(find / -type f -executable \( -name "bridge" -o -name "console" \) 2>/dev/null | head -n 1)
-              if [ -z "$BIN_PATH" ]; then
-                echo "ERROR: Could not find console or bridge binary!"
-                exit 1
-              fi
-              echo "Found binary at $BIN_PATH. Starting console..."
-              exec $BIN_PATH \
-                --k8s-mode=in-cluster \
-                --user-auth=disabled \
-                --k8s-auth=bearer-token \
-                --listen=http://0.0.0.0:9000
+            - "--k8s-mode=in-cluster"
+            - "--user-auth=disabled"
+            - "--k8s-auth=bearer-token"
+            - "--listen=http://0.0.0.0:9000"
           ports:
-            - containerPort: 9000
-              name: http
+            - name: http
+              containerPort: 9000
+              protocol: TCP
           env:
             - name: BRIDGE_USER_AUTH
               value: "disabled"
