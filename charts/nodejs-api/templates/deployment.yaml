@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nodejs-app.fullname" . }}
+  name: {{ include "nodejs-api.fullname" . }}
   labels:
-    {{- include "nodejs-app.labels" . | nindent 4 }}
+    {{- include "nodejs-api.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "nodejs-app.selectorLabels" . | nindent 6 }}
+      {{- include "nodejs-api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "nodejs-app.selectorLabels" . | nindent 8 }}
+        {{- include "nodejs-api.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
