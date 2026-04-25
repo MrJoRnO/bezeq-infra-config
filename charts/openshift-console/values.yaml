@@ -15,3 +15,11 @@ bridge:
   k8sMode: "in-cluster"
   userAuth: "disabled"
   baseAddress: "" # ניתן להוסיף כאן את ה-DNS אם יש לך
+
+env:
+  - name: BRIDGE_USER_AUTH
+    value: "disabled"
+  - name: BRIDGE_K8S_MODE
+    value: "in-cluster"
+  - name: BRIDGE_K8S_AUTH
+    value: "bearer-token"
