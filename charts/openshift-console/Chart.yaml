@@ -1,0 +1,6 @@
+apiVersion: v2
+name: openshift-console
+description: A Helm chart for deploying OpenShift Web Console on EKS
+type: application
+version: 1.0.0
+appVersion: "latest"

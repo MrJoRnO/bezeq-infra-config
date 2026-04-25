@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/openshift/origin-console
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 9000
+
+# הגדרות עבור ה-Console BRIDGE
+bridge:
+  k8sMode: "in-cluster"
+  userAuth: "disabled"
+  baseAddress: "" # ניתן להוסיף כאן את ה-DNS אם יש לך
