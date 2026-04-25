@@ -14,24 +14,22 @@ spec:
       labels:
         app: openshift-console
     spec:
-      # חשוב: לוודא שהפוד משתמש ב-ServiceAccount שיש לו הרשאות
-      serviceAccountName: default 
+      serviceAccountName: default
       containers:
         - name: console
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "--k8s-mode=in-cluster"
+            - "--user-auth=disabled"
+            - "--k8s-auth=bearer-token"
+            - "--listen=http://0.0.0.0:9000"
           ports:
             - name: http
-              containerPort: {{ .Values.service.targetPort }}
+              containerPort: 9000
               protocol: TCP
           env:
-            - name: BRIDGE_K8S_MODE
-              value: {{ .Values.bridge.k8sMode | quote }}
             - name: BRIDGE_USER_AUTH
-              value: {{ .Values.bridge.userAuth | quote }}
-            - name: BRIDGE_K8S_AUTH
-              value: "bearer-token"
-            - name: BRIDGE_K8S_MODE_OFF_CLUSTER_ENDPOINT
-              value: "https://kubernetes.default.svc"
-            - name: BRIDGE_K8S_MODE_OFF_CLUSTER_SKIP_VERIFY_TLS
-              value: "true"
+              value: "disabled"
+            - name: BRIDGE_K8S_MODE
+              value: "in-cluster"
