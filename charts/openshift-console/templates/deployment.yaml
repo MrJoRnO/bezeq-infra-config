@@ -23,6 +23,7 @@ spec:
             - "--user-auth=disabled"
             - "--k8s-auth=bearer-token"
             - "--listen=http://0.0.0.0:9000"
+            - "--public-dir=/opt/bridge/static"
           ports:
             - containerPort: 9000
               name: http
@@ -31,3 +32,5 @@ spec:
               value: "disabled"
             - name: BRIDGE_K8S_MODE
               value: "in-cluster"
+            - name: BRIDGE_BASE_ADDRESS
+              value: "http://a435ff5d48d5a422c9924ebe92184673-988295542.eu-central-1.elb.amazonaws.com"
