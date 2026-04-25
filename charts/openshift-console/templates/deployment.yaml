@@ -19,21 +19,22 @@ spec:
         - name: console
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          containers:
-        - name: console
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args:
-            - "--k8s-mode=in-cluster"
-            - "--user-auth=disabled"
-            - "--k8s-auth=bearer-token"
-            - "--listen=http://0.0.0.0:9000"
           ports:
             - name: http
-              containerPort: 9000 
+              containerPort: 9000
               protocol: TCP
           env:
+            # הגדרות הליבה של הקונסול
             - name: BRIDGE_USER_AUTH
               value: "disabled"
             - name: BRIDGE_K8S_MODE
               value: "in-cluster"
+            - name: BRIDGE_K8S_AUTH
+              value: "bearer-token"
+            - name: BRIDGE_LISTEN
+              value: "http://0.0.0.0:9000"
+            # תיקון לנתיבים פנימיים
+            - name: BRIDGE_BASE_ADDRESS
+              value: "/"
+            - name: BRIDGE_PUBLIC_DIR
+              value: "./static"
