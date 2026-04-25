@@ -1,13 +1,17 @@
 replicaCount: 1
 
 image:
-  repository: "" # יתמלא מה-CI
+  repository: "" 
   tag: "latest"
   pullPolicy: IfNotPresent
 
+imagePullSecrets:
+  - name: ecr-registry-key
+
 service:
   type: ClusterIP
-  port: 3000
+  port: 80 
+  targetPort: 3000 
 
 db:
   externalIP: "10.50.1.100" 
