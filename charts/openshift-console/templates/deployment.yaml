@@ -16,8 +16,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: console
-          image: "quay.io/openshift/origin-console:latest"
-          # הנתיב שאימתנו ב-Discovery
+          image: "quay.io/openshift/origin-console:4.12" # גרסה יציבה ובדוקה
           command: ["/opt/bridge/bin/bridge"]
           args:
             - "--k8s-mode=in-cluster"
@@ -25,9 +24,8 @@ spec:
             - "--k8s-auth=bearer-token"
             - "--listen=http://0.0.0.0:9000"
           ports:
-            - name: http
-              containerPort: 9000
-              protocol: TCP
+            - containerPort: 9000
+              name: http
           env:
             - name: BRIDGE_USER_AUTH
               value: "disabled"
