@@ -1,7 +1,7 @@
 environment: dev
 
 image:
-  repository: "" 
+  repository: "194636597980.dkr.ecr.eu-central-1.amazonaws.com/bezeq-app-dev-api" 
   tag: "latest"
   pullPolicy: IfNotPresent
   
