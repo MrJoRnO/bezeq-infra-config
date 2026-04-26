@@ -23,7 +23,7 @@ module "ecr" {
 
 module "secrets" {
   source      = "./modules/secrets_manager"
-  secret_name = "${local.env_prefix}/db-connection"
+  secret_name = "${local.env_prefix}/db-connection-v1"
   db_details  = var.db_connection_string
   tags        = local.common_tags
 }
